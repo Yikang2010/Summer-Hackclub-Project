@@ -1,0 +1,98 @@
+ Question 3: Data analysis with ArrayList
+
+A library keeps track of book hold requests. The LibraryHolds class contains an ArrayList<String> named holds. Each element represents the title of a book that a customer has placed on hold. The titles are stored in the order they were requested.
+
+public class LibraryHolds {
+
+ private ArrayList<String> holds;
+
+
+ /** Constructs an empty LibraryHolds object. */
+
+ public LibraryHolds()
+
+ {
+
+   holds = new ArrayList<String>();
+
+ }
+
+
+ /** Adds a book title to the end of the hold list. */
+
+ public void addHold(String title)
+
+ {
+
+   holds.add(title);
+
+ }
+
+
+ // Methods to be written in parts (a) and (b)
+
+}
+
+
+Write the method countHolds, which returns the number of times a given book title appears in the holds list.
+
+For example, if holds contains:
+
+["Dune", "1984", "Dune", "Hamlet", "Dune"]
+
+then the call
+
+countHolds("Dune")
+
+should return 3.
+
+Complete method countHolds.
+
+   /**
+
+    * Returns the number of times the given title appears in holds.
+
+    *
+
+    * Precondition: title is not null.
+
+    * Postcondition: holds is not modified.
+
+    */
+
+   public int countHolds(String title)
+
+Part B
+Write the method removeHold, which removes all occurrences of a given title from the holds list.
+
+For example, if holds contains:
+
+["Dune", "1984", "Dune", "Hamlet", "Dune"]
+
+after the call
+
+removeHold("Dune")
+
+holds should contain:
+
+["1984", "Hamlet"]
+
+Complete method removeHold below.
+
+/**
+
+    * Removes all occurrences of the given title from holds.
+
+    *
+
+    * Precondition: title is not null.
+
+    * Postcondition: holds contains all elements that were in the
+
+    * original list except those equal to title. The relative order
+
+    * of the remaining elements is unchanged.
+
+    */
+
+   public void removeHold(String title)
