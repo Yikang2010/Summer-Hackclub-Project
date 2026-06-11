@@ -7,7 +7,6 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 
-
 public class GameManager extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private Ball ball;
     private Goalie goalie;
