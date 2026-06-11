@@ -15,7 +15,7 @@ public class Ball {
         this.x = startX - (size / 2);
         this.y = startY - (size / 2);
         try {
-            ballImage = ImageIO.read(getClass().getResource("/sprites/soccer_ball.png"));
+            ballImage = ImageIO.read(getClass().getResource("/sprites/soccer ball.png"));
         } catch (Exception e) {
             System.out.println("Could not load soccer_ball.png");
         }

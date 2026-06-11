@@ -14,7 +14,7 @@ public class Goalie {
         this.x = startX;
         this.y = startY;
         try {
-            goalieImage = ImageIO.read(getClass().getResource("/sprites/rGoalie.png"));
+            goalieImage = ImageIO.read(getClass().getResource("/sprites/rGoalie1.png"));
         } catch (Exception e) {
             System.out.println("Could not load rGoalie.png");
         }
