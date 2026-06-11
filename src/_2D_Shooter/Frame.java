@@ -19,7 +19,7 @@ public class Frame extends JPanel implements ActionListener {
     boolean gameWon = false;
 
     public Frame() {
-        JFrame window = new JFrame("Master of Mischief");
+        JFrame window = new JFrame("2D shooter");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // 1. Set internal game size
