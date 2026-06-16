@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-
 public class GameManager extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private Ball ball;
     private Goalie goalie;
@@ -14,7 +13,6 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
     private BallTrajectory trajectory;
     private UIManager uiManager;
     private Image background;
-    
     private int goals = 0;
     private int misses = 0;
     private boolean gameOver = false;
