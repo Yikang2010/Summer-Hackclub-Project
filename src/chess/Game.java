@@ -18,7 +18,23 @@ public class Game extends JPanel implements MiniGames {
         this.add(board, BorderLayout.CENTER);
     }
 
-    @Override public JPanel getGamePanel() { return this; }
-    @Override public void init() { }
-    @Override public void stop() { }
+    @Override 
+    public JPanel getGamePanel() { 
+        return this; 
+    }
+
+    @Override 
+    public void init() { 
+        // 1. Pass the mouse/keyboard focus DOWN to the actual board
+        board.setFocusable(true);
+        board.requestFocusInWindow();
+        
+        // 2. WAKE UP THE BOARD (This triggers the animations now!)
+        board.startPuzzle(); 
+    }
+
+    @Override 
+    public void stop() { 
+        // Background processes stop here if needed
+    }
 }

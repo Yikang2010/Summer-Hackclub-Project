@@ -1,53 +1,14 @@
 package chess;
 
 import javax.swing.*;
-
 import game_engine.GameState;
-
-//import game_engine.GameState;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-  
 
-	
-	
-	
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	 
-
-
-
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-	
 public class Board extends JPanel {
     private BufferedImage boardImage;
     private Piece[][] grid = new Piece[8][8];
@@ -64,45 +25,18 @@ public class Board extends JPanel {
     private int puzzleState = 0; 
     private Piece selectedPiece = null;
     private int selectedRow = -1, selectedCol = -1;
- // Add GameState engine to the constructor
-   // private GameState engine;
-
-//    public Board(GameState engine) {
-//        this.engine = engine; 
-//        // ... existing try/catch code ...
-//    }
- // 1. Add this field at the top with your other variables
     private GameState engine; 
     
-    // ... existing variables (boardImage, grid, etc.) ...
-
-    // 2. Update the constructor to accept GameState
     public Board(GameState engine) {
         this.engine = engine; // Save the engine link
         
         try {
             boardImage = ImageIO.read(new File("src/chess/chessBoard460.png"));
-            setupPuzzleStart();
-            startBlackCaptureAnimation();
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        // ... rest of your mouse listener code ...
-    }
-    
-    
-    
-    
-    public Board() {
-        try {
-            boardImage = ImageIO.read(new File("src/chess/chessBoard460.png"));
-            setupPuzzleStart();
-            startBlackCaptureAnimation();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        // MOVED THE MOUSE LISTENER HERE! Now it actually listens.
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -118,12 +52,17 @@ public class Board extends JPanel {
             }
         });
     }
+    
+    // NEW METHOD: Called by chess.Game when the panel is actually shown
+    public void startPuzzle() {
+        setupPuzzleStart();
+        startBlackCaptureAnimation();
+    }
 
     private void setupPuzzleStart() {
         String p = "src/chess/";
         for (int r = 0; r < 8; r++) for (int c = 0; c < 8; c++) grid[r][c] = null;
 
-        // --- YOUR EXACT SETUP ---
         grid[0][3] = new Rook(true, p + "w-rook.png");       // Target Rook on d8
         grid[0][4] = new Rook(false, p + "b-Rook.png");      // Attacker on e8
         grid[0][7] = new King(false, p + "b-king.png");      // h8
@@ -179,15 +118,9 @@ public class Board extends JPanel {
                     executeMove(row, col);
                     puzzleState = 4; // PUZZLE SOLVED!
                     
-                    
-                    
-                 // --- ADD TRANSITION HERE ---
-                    // This is the exact moment the final move is made.
-                    // We tell the GameManager to swap to the next game (Soccer).
                     if (engine != null) {
-                        engine.onGameFinished();
+                        engine.onGameFinished(); // Transition to Soccer!
                     }
-                    // ---------------------------
                 } else {
                     puzzleState = 99; // Incorrect move
                 }
@@ -256,7 +189,6 @@ public class Board extends JPanel {
             }
         }
 
-        // Draw Game Over Overlays
         if (puzzleState == 99) {
             g.setColor(new Color(0, 0, 0, 150));
             g.fillRect(0, 0, 480, 480);
@@ -270,13 +202,8 @@ public class Board extends JPanel {
             g.drawString("PUZZLE SOLVED!", 150, 240);
         }
     }
-
-    public static void main(String[] args) {
-        JFrame f = new JFrame("Chess Puzzle");
-        f.add(new Board());
-        f.setSize(496, 519);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
-    }
 }
+
+
+
+

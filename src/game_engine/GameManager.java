@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class GameManager implements GameState {
     private JFrame mainFrame;
     private List<MiniGames> playlist = new ArrayList<>();

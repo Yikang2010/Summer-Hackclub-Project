@@ -2,46 +2,49 @@ package _2D_Shooter;
 
 import javax.swing.*;
 
+//import _2D_Shooter.Background;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import game_engine.MiniGames;
+import game_engine.GameState;
 
-public class Frame extends JPanel implements ActionListener {
+public class Frame extends JPanel implements ActionListener, MiniGames {
 
     Player player = new Player(400, 300);
     ArrayList<Zombie> zombies = new ArrayList<>();
     Health healthUI = new Health();
     Background bg = new Background();
     Timer timer = new Timer(16, this);
+    GameState engine; // Added engine reference
 
     int currentWave = 1;
     boolean gameWon = false;
 
-    public Frame() {
-        JFrame window = new JFrame("2D shooter");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        // 1. Set internal game size
+    public Frame(GameState engine) {
+        this.engine = engine;
         this.setPreferredSize(new Dimension(800, 600));
-        window.add(this);
-
-        // 2. Wrap window around the panel
-        window.pack(); 
-
-        // 3. SET WINDOW POSITION TO 0,0 ON YOUR DESKTOP
-        window.setLocation(0, 0); 
-
-        window.setResizable(true); 
-        spawnWave();
-
         this.setFocusable(true);
         this.addKeyListener(player);
         this.addMouseListener(player);
         this.addMouseMotionListener(player);
+    }
 
+    @Override
+    public JPanel getGamePanel() { return this; }
+
+    @Override
+    public void init() {
+        spawnWave();
         timer.start();
-        window.setVisible(true);
+        this.requestFocusInWindow();
+    }
+
+    @Override
+    public void stop() {
+        timer.stop();
     }
 
     private void spawnWave() {
@@ -54,7 +57,7 @@ public class Frame extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        bg.render(g); // Draws background image at 0,0 inside the panel
+        bg.render(g); 
         player.render(g);
         for (Zombie z : zombies) z.render(g);
         healthUI.render(g, player.health);
@@ -64,9 +67,8 @@ public class Frame extends JPanel implements ActionListener {
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(player.health <= 0 ? Color.RED : Color.GREEN);
             g.setFont(new Font("Arial", Font.BOLD, 50));
-            String msg = player.health <= 0 ? " " : " ";
+            String msg = player.health <= 0 ? "GAME OVER" : "WAVE CLEARED!";
             g.drawString(msg, 250, 300);
-            timer.stop();
         }
     }
 
@@ -90,13 +92,16 @@ public class Frame extends JPanel implements ActionListener {
         }
         if (zombies.isEmpty() && !gameWon) {
             currentWave++;
-            if (currentWave > 3) gameWon = true;
+            if (currentWave > 3) {
+                gameWon = true;
+                timer.stop();
+                // THE CRITICAL FIX: Tell the engine to move to the next game!
+                engine.onGameFinished(); 
+            }
             else spawnWave();
         }
         repaint();
     }
-
-    public static void main(String[] args) { 
-        SwingUtilities.invokeLater(() -> new Frame()); 
-    }
 }
+
+
