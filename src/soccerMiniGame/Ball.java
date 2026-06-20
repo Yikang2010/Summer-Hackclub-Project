@@ -21,6 +21,7 @@ public class Ball {
         }
     }
 
+    
     public void kick(double velocityX, double velocityY) {
         this.vx = velocityX;
         this.vy = velocityY;

@@ -3,56 +3,67 @@ package soccerMiniGame;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import game_engine.GameState;
+import game_engine.MiniGames; // Missing import added
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class GameManager extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class SoccerManager extends JPanel implements ActionListener, MouseListener, MouseMotionListener, MiniGames {
     private Ball ball;
     private Goalie goalie;
     private Goal goal;
     private BallTrajectory trajectory;
     private UIManager uiManager;
     private Image background;
+    
     private int goals = 0;
     private int misses = 0;
     private boolean gameOver = false;
     private String endMessage = "";
     private Timer gameLoop;
 
-    // Updated to match your new goal.jpg dimensions
     private final int WIDTH = 1470;
+    
     private final int HEIGHT = 980;
 
-    public GameManager() {
+    private GameState engine;
+
+    // Merged into a single, clean constructor
+    public SoccerManager(GameState engine) {
+        this.engine = engine;
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         addMouseListener(this);
         addMouseMotionListener(this);
         
         uiManager = new UIManager();
         trajectory = new BallTrajectory();
-        goal = new Goal(WIDTH); // Goal hit-box will scale to the new width
+        goal = new Goal(WIDTH); 
         
         try {
-            // Updated filename
             background = ImageIO.read(new File("src/soccerMiniGame/goal.jpg"));
         } catch (Exception e) {
             System.out.println("Could not load goal.jpg. Check the file path!");
         }
-
         resetRound();
+    }
+    
+    @Override public JPanel getGamePanel() { return this; }
+    
+    @Override public void init() { 
         gameLoop = new Timer(16, this);
         gameLoop.start();
+        this.requestFocusInWindow();
+    }
+    
+    @Override public void stop() { 
+        if (gameLoop != null) gameLoop.stop();
     }
 
     private void resetRound() {
-        // Positioned the ball at the bottom center of the new 1470x980 area
         ball = new Ball(WIDTH / 2, HEIGHT - 200); 
-        
-        // Positioned the goalie relative to the new height
         goalie = new Goalie(WIDTH / 2 - 75, 250);
         goalie.width = 150; 
         goalie.height = 200;
-        
         trajectory.isAiming = false;
     }
 
@@ -78,16 +89,24 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
             checkWinLoss();
             resetRound();
         } else if (ball.y < -200 || ball.x < -200 || ball.x > WIDTH + 200) {
-            // Ball went out of bounds
             misses++;
             checkWinLoss();
             resetRound();
         }
     }
-
+ 
     private void checkWinLoss() {
-        if (goals >= 5) { gameOver = true; endMessage = "WORLD CLASS FINISHER!"; }
-        else if (misses >= 2) { gameOver = true; endMessage = "MATCH OVER - YOU LOST"; }
+        if (goals >= 5) { 
+            gameOver = true; 
+            endMessage = "WORLD CLASS FINISHER!"; 
+            stop(); // Stop game loop
+            engine.onGameFinished(); // THE FIX: Move to the next game!
+        }
+        else if (misses >= 2) { 
+            gameOver = true; 
+            endMessage = "MATCH OVER - YOU LOST"; 
+            stop();
+        }
     }
 
     @Override
@@ -96,16 +115,13 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
         if (background != null) {
             g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
         }
-        
         goalie.draw(g);
         ball.draw(g);
         trajectory.draw(g); 
-        
         uiManager.drawScores(g, goals, misses, endMessage);
         if (gameOver) uiManager.drawEndScreen(g, endMessage, WIDTH, HEIGHT);
     }
 
-    // --- MOUSE METHODS (No changes needed here) ---
     @Override
     public void mousePressed(MouseEvent e) {
         if (!gameOver && !ball.isMoving) {
@@ -124,7 +140,7 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
             trajectory.currentY = e.getY();
         }
     }
-
+    
     @Override
     public void mouseReleased(MouseEvent e) {
         if (trajectory.isAiming) {
@@ -132,9 +148,8 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
             double dx = trajectory.startX - e.getX();
             double dy = trajectory.startY - e.getY();
             
-            // Power clamping
             double distance = Math.sqrt(dx * dx + dy * dy);
-            double maxPower = 200.0; // Increased max power slightly for the larger screen
+            double maxPower = 200.0; 
             if (distance > maxPower) {
                 double ratio = maxPower / distance;
                 dx *= ratio;
@@ -143,18 +158,9 @@ public class GameManager extends JPanel implements ActionListener, MouseListener
             ball.kick(dx * 0.18, dy * 0.18); 
         }
     }
-
+    
     public void mouseMoved(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Soccer Shootout");
-        frame.add(new GameManager());
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-}
+ }

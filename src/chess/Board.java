@@ -28,7 +28,10 @@ public class Board extends JPanel {
     private GameState engine; 
     
     public Board(GameState engine) {
-        this.engine = engine; // Save the engine link
+this.engine = engine; // Save the engine link
+        
+        // Tell the engine window exactly how big this chess panel needs to be:
+        this.setPreferredSize(new Dimension(480, 480));
         
         try {
             boardImage = ImageIO.read(new File("src/chess/chessBoard460.png"));
