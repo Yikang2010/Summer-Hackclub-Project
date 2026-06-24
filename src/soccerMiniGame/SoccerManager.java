@@ -40,7 +40,8 @@ public class SoccerManager extends JPanel implements ActionListener, MouseListen
         goal = new Goal(WIDTH); 
         
         try {
-            background = ImageIO.read(new File("src/soccerMiniGame/goal.jpg"));
+            //background = ImageIO.read(new File("src/soccerMiniGame/goal.jpg"));
+        	background = ImageIO.read(getClass().getResource("/soccerMiniGame/goal.jpg"));
         } catch (Exception e) {
             System.out.println("Could not load goal.jpg. Check the file path!");
         }
@@ -109,18 +110,41 @@ public class SoccerManager extends JPanel implements ActionListener, MouseListen
         }
     }
 
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        super.paintComponent(g);
+//        if (background != null) {
+//            g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
+//        }
+//        goalie.draw(g);
+//        ball.draw(g);
+//        trajectory.draw(g); 
+//        uiManager.drawScores(g, goals, misses, endMessage);
+//        if (gameOver) uiManager.drawEndScreen(g, endMessage, WIDTH, HEIGHT);
+//    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        // 1. Draw the background FIRST so it stays in the back
         if (background != null) {
-            g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
+            g.drawImage(background, 0, 0, WIDTH, HEIGHT, this);
         }
+        
+        // 2. Draw your game objects on top of the background
         goalie.draw(g);
         ball.draw(g);
-        trajectory.draw(g); 
+        trajectory.draw(g);
+        
+        // 3. Draw your text/UI on the absolute top layer
         uiManager.drawScores(g, goals, misses, endMessage);
         if (gameOver) uiManager.drawEndScreen(g, endMessage, WIDTH, HEIGHT);
     }
+    
+    
+    
+    
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -164,3 +188,6 @@ public class SoccerManager extends JPanel implements ActionListener, MouseListen
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
  }
+
+
+

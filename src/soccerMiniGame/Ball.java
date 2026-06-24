@@ -20,7 +20,6 @@ public class Ball {
             System.out.println("Could not load soccer_ball.png");
         }
     }
-
     
     public void kick(double velocityX, double velocityY) {
         this.vx = velocityX;

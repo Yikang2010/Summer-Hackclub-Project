@@ -2,7 +2,7 @@ package soccerMiniGame;
 
 import java.awt.Rectangle;
 
-import soccer_minigame.Ball;
+//import soccer_minigame.Ball;
 
 public class Goal {
     public int x, y, width, height;

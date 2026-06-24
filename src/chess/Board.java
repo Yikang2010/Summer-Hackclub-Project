@@ -28,13 +28,15 @@ public class Board extends JPanel {
     private GameState engine; 
     
     public Board(GameState engine) {
-this.engine = engine; // Save the engine link
+    	this.engine = engine; // Save the engine link
         
         // Tell the engine window exactly how big this chess panel needs to be:
         this.setPreferredSize(new Dimension(480, 480));
         
         try {
-            boardImage = ImageIO.read(new File("src/chess/chessBoard460.png"));
+            //boardImage = ImageIO.read(new File("src/chess/chessBoard460.png"));
+        	// This looks inside the JAR/classpath for the file
+        	boardImage = ImageIO.read(getClass().getResource("/chess/chessBoard460.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,23 +64,42 @@ this.engine = engine; // Save the engine link
         startBlackCaptureAnimation();
     }
 
+//    private void setupPuzzleStart() {
+//        String p = "src/chess/";
+//        for (int r = 0; r < 8; r++) for (int c = 0; c < 8; c++) grid[r][c] = null;
+//
+//        grid[0][3] = new Rook(true, p + "w-rook.png");       // Target Rook on d8
+//        grid[0][4] = new Rook(false, p + "b-Rook.png");      // Attacker on e8
+//        grid[0][7] = new King(false, p + "b-king.png");      // h8
+//        grid[2][2] = new Queen(false, p + "b-queen.png");    // c6
+//        grid[1][6] = new Pawn(false, p + "b-Pawn.png");      // g6
+//        grid[1][7] = new Pawn(false, p + "b-Pawn.png");      // h6
+//        grid[5][4] = new Rook(false, p + "b-Rook.png");
+//        
+//        grid[6][5] = new Queen(true, p + "w-queen.png");     // f2
+//        grid[7][2] = new King(true, p + "w-king.png");       // c1
+//        grid[6][1] = new Pawn(true, p + "w-pawn.png");       // b2
+//        grid[6][2] = new Pawn(true, p + "w-pawn.png");       // c2
+//        grid[7][3] = new Rook(true, p + "w-rook.png");       // STARTING ROOK
+//    }
+    
     private void setupPuzzleStart() {
-        String p = "src/chess/";
         for (int r = 0; r < 8; r++) for (int c = 0; c < 8; c++) grid[r][c] = null;
 
-        grid[0][3] = new Rook(true, p + "w-rook.png");       // Target Rook on d8
-        grid[0][4] = new Rook(false, p + "b-Rook.png");      // Attacker on e8
-        grid[0][7] = new King(false, p + "b-king.png");      // h8
-        grid[2][2] = new Queen(false, p + "b-queen.png");    // c6
-        grid[1][6] = new Pawn(false, p + "b-Pawn.png");      // g6
-        grid[1][7] = new Pawn(false, p + "b-Pawn.png");      // h6
-        grid[5][4] = new Rook(false, p + "b-Rook.png");
+        // Just pass the raw file names now!
+        grid[0][3] = new Rook(true, "w-rook.png");       
+        grid[0][4] = new Rook(false, "b-Rook.png");      
+        grid[0][7] = new King(false, "b-king.png");      
+        grid[2][2] = new Queen(false, "b-queen.png");    
+        grid[1][6] = new Pawn(false, "b-Pawn.png");      
+        grid[1][7] = new Pawn(false, "b-Pawn.png");      
+        grid[5][4] = new Rook(false, "b-Rook.png");
         
-        grid[6][5] = new Queen(true, p + "w-queen.png");     // f2
-        grid[7][2] = new King(true, p + "w-king.png");       // c1
-        grid[6][1] = new Pawn(true, p + "w-pawn.png");       // b2
-        grid[6][2] = new Pawn(true, p + "w-pawn.png");       // c2
-        grid[7][3] = new Rook(true, p + "w-rook.png");       // STARTING ROOK
+        grid[6][5] = new Queen(true, "w-queen.png");     
+        grid[7][2] = new King(true, "w-king.png");       
+        grid[6][1] = new Pawn(true, "w-pawn.png");       
+        grid[6][2] = new Pawn(true, "w-pawn.png");       
+        grid[7][3] = new Rook(true, "w-rook.png");       
     }
 
     private void handlePuzzleInteraction(int row, int col) {
@@ -206,6 +227,11 @@ this.engine = engine; // Save the engine link
         }
     }
 }
+
+
+
+
+
 
 
 

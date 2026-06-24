@@ -39,7 +39,7 @@ public class Zombie {
         } else if (wave >= 3) {
             this.speed = 2.8; // A bit more speed than wave 2
             this.maxHealth = 5; // A lot more health
-            spriteName = "/zombie3.png";
+            spriteName = "/Zombie3.png";
         }
 
         this.health = this.maxHealth; // Start at full health

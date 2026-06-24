@@ -9,10 +9,9 @@ public class Launcher {
     public static void main(String[] args) {
         GameManager boss = new GameManager();
         // Add games in exact order
-        boss.addGame(new Frame(boss));         
+        boss.addGame(new Frame(boss));          
         boss.addGame(new Game(boss));          
         boss.addGame(new SoccerManager(boss)); 
-
 
         // Start the engine
         boss.startEngine();

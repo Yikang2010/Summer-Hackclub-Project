@@ -64,7 +64,9 @@ public class GameManager implements GameState {
     @Override
     public void onGameFinished() {
         System.out.println("Current game finished! Moving to next...");
-        loadLevel(currentIndex + 1);
+        loadLevel(currentIndex + 1);           
     }
 }
+
+
 

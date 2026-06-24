@@ -12,7 +12,9 @@ public abstract class Piece {
     public Piece(boolean isWhite, String imagePath) {
         this.isWhite = isWhite;
         try {
-            this.image = ImageIO.read(new File(imagePath));
+            //this.image = ImageIO.read(new File(imagePath));
+        	//this.image = ImageIO.read(getClass().getResource(imagePath));
+            this.image = ImageIO.read(getClass().getResource("/chess/" + imagePath));
         } catch (Exception e) {
             System.out.println("Could not load image: " + imagePath);
         }
