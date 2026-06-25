@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My Hack Club MiniGames</title>
+    <script src="https://cjrtnc.leaningtech.com/4.3/loader.js"></script>
+  </head>
+  <body>
+    <script>
+      (async function () {
+        // Initialise the Java runtime environment in the browser
+        await cheerpjInit();
+        // Create an 800x600 screen area for your Java game
+        cheerpjCreateDisplay(800, 600);
+        // Runs your jar file from the root directory
+        await cheerpjRunJar("/app/Summer-Hackclub-Project/MiniGamesJava17.jar");
+      })();
+    </script>
+  </body>
+</html>
