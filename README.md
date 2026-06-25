@@ -1,4 +1,4 @@
-*****Please download the game if you can, it is in the realese part of this github, the website verion is way too slow.*****
+*****Please download the game if you can, it is in the realese part of this github.*****
 
 
 Games
