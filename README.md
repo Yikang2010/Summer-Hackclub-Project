@@ -8,7 +8,7 @@ A top-down survival game where you navigate and defend yourself against oncoming
 Objective: Survive all waves managing your HP bar.
 
 Controls:
-W/A/S/D or Arrow Keys to move. Aim and shoot using the mouse.
+W/A/S/D to move. Aim and shoot using the mouse.
 
 ⚽ Soccer Shootout
 A penalty shoot out putting your precision to the test against a robotic goalkeeper.
