@@ -1,5 +1,6 @@
 *****Please download the game if you can, it is in the realese part of this github.*****
 
+You have to beat each level 1 at a time! For example after beating the first game you go to the next game. I was thinking of having a button where you can play each but I wanted the theme to be in 1 motion, but maybe in the future I will add more sectioins. But at first I made it so that there was 3 buttons and each and you start on that minigame, but i think that was a little bit confusioning but I might add it back tough.
 
 Games
 
